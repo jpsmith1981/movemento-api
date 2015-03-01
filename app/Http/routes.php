@@ -11,6 +11,8 @@
 |
 */
 
+Route::resource('movemento', 'MovementoController');
+
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
