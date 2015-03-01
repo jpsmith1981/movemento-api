@@ -1,13 +1,13 @@
 <?php namespace App\Http\Controllers;
 
-use App\Movemento;
+use App\Like;
+
 use App\Http\Requests;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class MovementoController extends Controller {
+class LikeController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,9 +17,6 @@ class MovementoController extends Controller {
 	public function index()
 	{
 		//
-
-        return response()->json( Movemento::with('likes','user')->get(), 200);
-
 	}
 
 	/**
@@ -39,22 +36,23 @@ class MovementoController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
+		//
         // Todo:: Use Built in Validation Methods.
-		if($request->has('note') && $request->has('user_id') && $request->has('latitude') && $request->has('longitude')){
+        if($request->has('user_id') && $request->has('movemento_id')){
 
-            $movemento = new Movemento();
-            $movemento->note = $request->input('note');
-            $movemento->user_id = $request->input('user_id');
-            $movemento->latitude = $request->input('latitude');
-            $movemento->longitude = $request->input('longitude');
-            $movemento->save();
-            return response()->json($movemento,200);
+                if(!Like::where('user_id', '=',$request->input('user_id'))->where('movemento_id','=',$request->input('movemento_id'))->first()){
+                    $like = new Like();
+                    $like->user_id = $request->input('user_id');
+                    $like->movemento_id = $request->input('movemento_id');
+                    $like->save();
+                }
+
+                return response()->json(Like::where('user_id', '=', $request->input('user_id'))->get());
+
         }
         else{
             die('missing data');
         }
-
 	}
 
 	/**
@@ -66,7 +64,6 @@ class MovementoController extends Controller {
 	public function show($id)
 	{
 		//
-        return response()->json( Movemento::with('likes','user')->find($id), 200);
 	}
 
 	/**
@@ -100,8 +97,7 @@ class MovementoController extends Controller {
 	public function destroy($id)
 	{
 		//
-        Movemento::destroy($id);
-
+        Like::Destroy($id);
 	}
 
 }

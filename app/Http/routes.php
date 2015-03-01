@@ -10,8 +10,10 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::resource('user', 'UserController');
 Route::resource('movemento', 'MovementoController');
+Route::resource('like', 'LikeController');
+Route::resource('friend', 'FriendController');
 
 Route::get('/', 'WelcomeController@index');
 

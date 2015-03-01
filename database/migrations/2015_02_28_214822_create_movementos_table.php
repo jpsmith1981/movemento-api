@@ -24,8 +24,8 @@ class CreateMovementosTable extends Migration {
             $table->decimal('longitude', 30, 7);
 
             //User who made the Movemento
-            $table->unsignedInteger('userID');
-            $table->foreign('userID')
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
 

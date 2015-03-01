@@ -16,6 +16,18 @@ class CreateFriendsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->timestamps();
+
+            //User ID
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
+            //Friend ID
+            $table->unsignedInteger('friend_id');
+            $table->foreign('friend_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 		});
 	}
 
